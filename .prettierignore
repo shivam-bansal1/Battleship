@@ -1,0 +1,8 @@
+# Webpack build output
+dist
+
+# Node modules
+node_modules
+
+# Package lock files (if not version-controlled)
+package-lock.json
