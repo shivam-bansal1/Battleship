@@ -8,13 +8,18 @@ describe("Ship Hit Test", () => {
   });
 
   test("should register a hit", () => {
-    ship.hit();
-    expect(ship.hits).toBe(1);
+    ship.hit(2);
+    expect(ship.damaged).toBe(1);
   });
 
   test("should register two hits", () => {
-    ship.hit();
-    expect(ship.hits).toBe(2);
+    ship.hit(0);
+    expect(ship.damaged).toBe(2);
+  });
+
+  test("Rehit same cell", () => {
+    ship.hit(2);
+    expect(ship.damaged).toBe(2);
   });
 
   test("Ship not sunked test", () => {
@@ -22,8 +27,8 @@ describe("Ship Hit Test", () => {
   });
 
   test("should register three hits", () => {
-    ship.hit();
-    expect(ship.hits).toBe(3);
+    ship.hit(1);
+    expect(ship.damaged).toBe(3);
   });
 
   test("Ship sunked test", () => {
