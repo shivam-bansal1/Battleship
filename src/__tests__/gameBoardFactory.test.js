@@ -1,3 +1,4 @@
+import { experiments } from "webpack";
 import { GameBoard } from "../factories/gameBoardFactory";
 
 describe("GameBoard Tests", () => {
@@ -50,5 +51,18 @@ describe("GameBoard Tests", () => {
 
   test("Attack another ship", () => {
     expect(board.recieveAttack(5, 8)).toBe(true);
+  });
+
+  // All ships sunk
+  test("All ships not sunked", () => {
+    expect(board.allShipsSunked()).toBe(false);
+  });
+
+  test("All ships sunked", () => {
+    board.recieveAttack(4, 2);
+    board.recieveAttack(5, 2);
+    board.recieveAttack(5, 6);
+    board.recieveAttack(5, 7);
+    expect(board.allShipsSunked()).toBe(true);
   });
 });

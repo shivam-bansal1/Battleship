@@ -4,6 +4,8 @@ export class GameBoard {
   constructor() {
     this.grid = Array.from({ length: 9 }, () => Array(9).fill(null));
     this.missedShots = [];
+    this.landedShots = [];
+    this.allShips = [];
   }
 
   liesOutsideGrid(length, startingRow, startingCol, orientation) {
@@ -30,6 +32,7 @@ export class GameBoard {
         if (this.grid[startingRow + i][startingCol] !== null) return false;
         else {
           this.grid[startingRow + i][startingCol] = newShip;
+          this.allShips.push(newShip);
         }
       }
       return true;
@@ -38,6 +41,7 @@ export class GameBoard {
         if (this.grid[startingRow][startingCol + i] !== null) return false;
         else {
           this.grid[startingRow][startingCol + i] = newShip;
+          this.allShips.push(newShip);
         }
       }
       return true;
@@ -69,9 +73,14 @@ export class GameBoard {
     return -1; // Ship not present
   }
 
+  alreadyLandedOnce(row, column) {
+    return this.landedShots.some(([r, c]) => r === row && c === column);
+  }
+
   recieveAttack(row, column) {
     if (row > 9 || row < 0 || column > 9 || column < 0) return false;
     if (this.alreadyMissedOnce(row, column)) return false;
+    if (this.alreadyLandedOnce(row, column)) return false;
 
     let shipAttacked = this.grid[row][column];
 
@@ -84,13 +93,18 @@ export class GameBoard {
       typeof shipAttacked.hit === "function"
     ) {
       let hitPosition = this.findShipAttackedCell(shipAttacked, row, column);
-      if (shipAttacked.attackedPosition[hitPosition])
+      if (hitPosition != -1 && shipAttacked.attackedPosition[hitPosition])
         return false; // Already damaged cell
       else {
         shipAttacked.hit(hitPosition);
+        this.landedShots.push([row, column]);
         return true;
       }
     }
     return false;
+  }
+
+  allShipsSunked() {
+    return this.allShips.every((ship) => ship.isSunk());
   }
 }
