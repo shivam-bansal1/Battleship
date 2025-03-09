@@ -26,31 +26,31 @@ describe("GameBoard Tests", () => {
 
   // Ship Attack Tests
   test("Doesn't attck ship outside gameboard", () => {
-    expect(board.recieveAttack(10, -4)).toBe(false);
+    expect(board.receiveAttack(10, -4)).toBe(false);
   });
 
   test("Attack empty cell", () => {
-    expect(board.recieveAttack(1, 1)).toBe(true);
+    expect(board.receiveAttack(1, 1)).toBe(true);
   });
 
   test("Attack missed shot cell", () => {
-    expect(board.recieveAttack(1, 1)).toBe(false);
+    expect(board.receiveAttack(1, 1)).toBe(false);
   });
 
   test("Attack ship", () => {
-    expect(board.recieveAttack(2, 2)).toBe(true);
+    expect(board.receiveAttack(2, 2)).toBe(true);
   });
 
   test("Attack ship different cell", () => {
-    expect(board.recieveAttack(3, 2)).toBe(true);
+    expect(board.receiveAttack(3, 2)).toBe(true);
   });
 
   test("Attack ship same cell", () => {
-    expect(board.recieveAttack(2, 2)).toBe(false);
+    expect(board.receiveAttack(2, 2)).toBe(false);
   });
 
   test("Attack another ship", () => {
-    expect(board.recieveAttack(5, 8)).toBe(true);
+    expect(board.receiveAttack(5, 8)).toBe(true);
   });
 
   // All ships sunk
@@ -59,10 +59,10 @@ describe("GameBoard Tests", () => {
   });
 
   test("All ships sunked", () => {
-    board.recieveAttack(4, 2);
-    board.recieveAttack(5, 2);
-    board.recieveAttack(5, 6);
-    board.recieveAttack(5, 7);
+    board.receiveAttack(4, 2);
+    board.receiveAttack(5, 2);
+    board.receiveAttack(5, 6);
+    board.receiveAttack(5, 7);
     expect(board.allShipsSunked()).toBe(true);
   });
 });

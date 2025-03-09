@@ -77,7 +77,7 @@ export class GameBoard {
     return this.landedShots.some(([r, c]) => r === row && c === column);
   }
 
-  recieveAttack(row, column) {
+  receiveAttack(row, column) {
     if (row > 9 || row < 0 || column > 9 || column < 0) return false;
     if (this.alreadyMissedOnce(row, column)) return false;
     if (this.alreadyLandedOnce(row, column)) return false;
