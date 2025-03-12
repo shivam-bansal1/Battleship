@@ -1,4 +1,3 @@
-import { experiments } from "webpack";
 import { GameBoard } from "../factories/gameBoardFactory";
 
 describe("GameBoard Tests", () => {
