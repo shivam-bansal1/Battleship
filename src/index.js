@@ -9,7 +9,7 @@ placeShipsRandomly(playerOne);
 placeShipsRandomly(playerTwo);
 
 function printBoard(board) {
-  board.grid.forEach((row, rowIndex) => {
+  board.board.forEach((row, rowIndex) => {
     console.log(
       `Row ${rowIndex}:`,
       row.map((cell) => (cell ? "S" : ".")), // S for Ship, . for empty

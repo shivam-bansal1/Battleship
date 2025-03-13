@@ -6,8 +6,8 @@ export function placeShipsRandomly(player) {
     let placed = false;
 
     while (!placed) {
-      const row = Math.floor(Math.random() * 9);
-      const column = Math.floor(Math.random() * 9);
+      const row = Math.floor(Math.random() * 10);
+      const column = Math.floor(Math.random() * 10);
       const orientation = orientations[Math.floor(Math.random() * 2)];
 
       placed = player.board.placeShip(length, row, column, orientation);

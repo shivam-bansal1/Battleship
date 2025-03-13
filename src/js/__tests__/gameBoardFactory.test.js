@@ -17,10 +17,16 @@ describe("GameBoard Tests", () => {
     expect(board.placeShip(3, 5, 6, "horizontal")).toBe(true);
   });
   test("Doesn't place outside gameboard 1", () => {
-    expect(board.placeShip(2, 9, 9, "horizontal")).toBe(false);
+    expect(board.placeShip(2, 10, 10, "horizontal")).toBe(false);
   });
   test("Doesn't place outside gameboard 2", () => {
     expect(board.placeShip(2, -3, 5, "horizontal")).toBe(false);
+  });
+  test("Doesn't place adjacent 1", () => {
+    expect(board.placeShip(4, 5, 2, "vertical")).toBe(false);
+  });
+  test("Doesn't place adjacent 2", () => {
+    expect(board.placeShip(2, 6, 5, "vertical")).toBe(false);
   });
 
   // Ship Attack Tests
