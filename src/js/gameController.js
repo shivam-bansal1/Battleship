@@ -14,3 +14,38 @@ export function placeShipsRandomly(player) {
     }
   });
 }
+
+export function handleAttack(row, col, attacker, defender) {
+  const successfulAttack = defender.board.receiveAttack(row, col);
+
+  if (!successfulAttack) return false;
+
+  if (attacker.board.allShipsSunked)
+    console.log(`${defender.playerName} wins the game !!!`);
+  else switchPlayerTurn();
+
+  return true;
+}
+
+function switchPlayerTurn(playerOne, playerTwo) {
+  let currentPlayer = playerOne;
+
+  currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
+  if (currentPlayer.playerType === "computer") {
+    setTimeout(computerMove(), 1000);
+  }
+}
+
+function computerMove(currentPlayer, playerOne, playerTwo) {
+  let row, col;
+  do {
+    row = Math.floor(Math.random() * 10);
+    col = Math.floor(Math.random() * 10);
+  } while (!currentPlayer.board.receiveAttack(row, col));
+
+  if (currentPlayer.allShipsSunked()) {
+    console.log(`${currentPlayer.playerName} lose the game !!!`);
+  } else {
+    switchPlayerTurn(playerOne, playerTwo);
+  }
+}

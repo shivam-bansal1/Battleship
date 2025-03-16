@@ -19,7 +19,6 @@ function printBoard(board) {
 
 console.log("Player One's Board:");
 printBoard(playerOne.board);
-console.log(playerOne.board.allShips);
 
 console.log("Player Two's Board:");
 printBoard(playerTwo.board);
