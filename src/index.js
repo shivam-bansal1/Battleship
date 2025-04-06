@@ -1,6 +1,7 @@
 import "./styles.css";
 import { placeShipsRandomly } from "./js/gameController.js";
 import { Player } from "./js/factories/playerFactory.js";
+import { renderGameboards } from "./js/DOM.js";
 
 const playerOne = new Player("Shivam", "human");
 const playerTwo = new Player("AI");
@@ -22,3 +23,5 @@ printBoard(playerOne.board);
 
 console.log("Player Two's Board:");
 printBoard(playerTwo.board);
+
+renderGameboards();

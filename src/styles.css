@@ -1,4 +1,86 @@
 /* styles.css */
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap");
+
+* {
+  --header-font: "Press Start 2P", "Roboto";
+  --title-font: "Winky sans", "Arial";
+}
 body {
-  background-color: rebeccapurple;
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  /* justify-items: center; */
+  align-items: center;
+}
+
+header {
+  font-family: var(--header-font);
+  font-size: 54px;
+  margin: 20px;
+}
+
+.board-container {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 30px;
+}
+
+.board-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.player-title,
+.health-details {
+  margin: 10px;
+}
+
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 1px;
+}
+
+.square {
+  width: 35px;
+  height: 35px;
+  background-color: skyblue;
+  outline: 1px salmon solid;
+}
+
+footer {
+  position: fixed;
+  bottom: 10px;
+
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 18px;
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
+}
+
+i {
+  padding-left: 4px;
+}
+
+i:hover {
+  transform: scale(1.5);
 }
