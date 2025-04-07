@@ -61,6 +61,10 @@ main {
   outline: 1px salmon solid;
 }
 
+.ship {
+  background-color: salmon;
+}
+
 footer {
   position: fixed;
   bottom: 10px;
