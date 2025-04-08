@@ -11,8 +11,9 @@ body {
 
   display: flex;
   flex-direction: column;
-  /* justify-items: center; */
   align-items: center;
+  background-color: #1a1a1a;
+  color: #faebd7;
 }
 
 header {
@@ -57,12 +58,12 @@ main {
 .square {
   width: 35px;
   height: 35px;
-  background-color: skyblue;
-  outline: 1px salmon solid;
+  outline: 1px #b87333 solid;
+  cursor: pointer;
 }
 
 .ship {
-  background-color: salmon;
+  background-color: #cd7f32;
 }
 
 footer {
