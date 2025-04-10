@@ -1,3 +1,5 @@
+export const intialDefender = "second-board";
+
 function generateSquares(whichBoard) {
   const gameboardContainer = document.querySelector(`#${whichBoard}`);
   for (let row = 0; row < 10; row++) {

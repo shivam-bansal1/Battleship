@@ -1,22 +1,21 @@
 import "./styles.css";
-import { placeShipsRandomly } from "./js/gameController.js";
+import { placeShipsRandomly, startGame } from "./js/gameController.js";
 import { Player } from "./js/factories/playerFactory.js";
 import { renderGameboards, showShipsOnBoard } from "./js/DOM.js";
 
-function renderMainPage() {
+function renderMainPage(playerOne, playerTwo) {
   renderGameboards();
 
-  const playerOne = new Player("Shivam", "human");
-  const playerTwo = new Player("AI");
-
   placeShipsRandomly(playerOne);
-  playerOne.board.board.forEach((row) =>
-    console.log(row.map((cell) => (cell ? "S" : "-")).join(" ")),
-  );
-
   placeShipsRandomly(playerTwo);
 
   showShipsOnBoard(playerOne, "first-board");
+  showShipsOnBoard(playerTwo, "second-board");
 }
 
-renderMainPage();
+export const playerOne = new Player("Shivam", "human");
+export const playerTwo = new Player("AI");
+
+renderMainPage(playerOne, playerTwo);
+
+startGame();
