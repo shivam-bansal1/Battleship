@@ -10,11 +10,12 @@ function renderMainPage(playerOne, playerTwo) {
   placeShipsRandomly(playerTwo);
 
   showShipsOnBoard(playerOne, "first-board");
-  showShipsOnBoard(playerTwo, "second-board");
 }
 
 export const playerOne = new Player("Shivam", "human");
-export const playerTwo = new Player("AI");
+export const playerTwo = new Player("Computer");
+export const intialDefenderBoard = "second-board";
+export const intialAttackerBoard = "first-board";
 
 renderMainPage(playerOne, playerTwo);
 

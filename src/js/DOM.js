@@ -1,4 +1,4 @@
-export const intialDefender = "second-board";
+import { placeShipsRandomly } from "./gameController";
 
 function generateSquares(whichBoard) {
   const gameboardContainer = document.querySelector(`#${whichBoard}`);
@@ -33,4 +33,31 @@ export function showShipsOnBoard(player, whichBoard) {
       }
     }
   }
+}
+
+function showMissedCells(player, playerBoard) {
+  const missedShortsCoordinates = player.board.missedShots;
+
+  missedShortsCoordinates.forEach(([row, col]) => {
+    const cellID = `${String.fromCharCode(65 + row)}${col + 1}`;
+    const domCell = playerBoard.querySelector(`.square[data-id="${cellID}"]`);
+    domCell.classList.add("missed-square");
+  });
+}
+
+function showDamagedCells(player, playerBoard) {
+  const landedShortsCoordinates = player.board.landedShots;
+
+  landedShortsCoordinates.forEach(([row, col]) => {
+    const cellID = `${String.fromCharCode(65 + row)}${col + 1}`;
+    const domCell = playerBoard.querySelector(`.square[data-id="${cellID}"]`);
+    domCell.classList.add("damaged-square");
+  });
+}
+
+export function renderMissedAndDamagedCells(player, whichBoard) {
+  const playerBoard = document.querySelector(`#${whichBoard}`);
+
+  showMissedCells(player, playerBoard);
+  showDamagedCells(player, playerBoard);
 }

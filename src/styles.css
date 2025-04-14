@@ -62,6 +62,14 @@ main {
   cursor: pointer;
 }
 
+.missed-square {
+  background-color: #a9a9a9;
+}
+
+.damaged-square {
+  background-color: #ff4500 !important;
+}
+
 .ship {
   background-color: #cd7f32;
 }

@@ -1,5 +1,10 @@
-import { intialDefender } from "./DOM";
-import { playerOne, playerTwo } from "../index";
+import { renderMissedAndDamagedCells } from "./DOM";
+import {
+  playerOne,
+  playerTwo,
+  intialDefenderBoard,
+  intialAttackerBoard,
+} from "../index";
 
 export function placeShipsRandomly(player) {
   const shipLengths = [5, 4, 3, 3, 2];
@@ -18,7 +23,7 @@ export function placeShipsRandomly(player) {
   });
 }
 
-function playerMove(attacker, defender, whichBoard = intialDefender) {
+function playerMove(attacker, defender, whichBoard = intialDefenderBoard) {
   const defenderBoard = document.querySelector(`#${whichBoard}`);
 
   if (!defenderBoard.dataset.listenerAttached) {
@@ -37,13 +42,13 @@ function playerMove(attacker, defender, whichBoard = intialDefender) {
     const column = parseInt(cellNumber.slice(1)) - 1;
 
     handlePlayerAttack(row, column, attacker, defender);
+    renderMissedAndDamagedCells(defender, whichBoard);
   }
 }
 
 export function handlePlayerAttack(row, col, attacker, defender) {
   console.log(`Player tries to hit Row:${row}, Col:${col}`);
   const successfulAttack = defender.board.receiveAttack(row, col);
-
   if (!successfulAttack) return;
 
   let allShipsHit = defender.board.allShipsSunked();
@@ -69,13 +74,15 @@ function switchPlayerTurn(previousAttacker) {
   }
 }
 
-function computerMove(attacker, defender) {
+function computerMove(attacker, defender, whichBoard = intialAttackerBoard) {
   let row, col;
   do {
     row = Math.floor(Math.random() * 10);
     col = Math.floor(Math.random() * 10);
     console.log(`Computer attacking Row:${row}, Column;${col}`);
   } while (!defender.board.receiveAttack(row, col));
+
+  renderMissedAndDamagedCells(defender, whichBoard);
 
   if (defender.board.allShipsSunked()) {
     console.log(`${defender.playerName} lost the game !!!`);
