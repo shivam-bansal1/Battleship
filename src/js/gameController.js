@@ -46,13 +46,25 @@ function playerMove(attacker, defender, whichBoard = intialDefenderBoard) {
   }
 }
 
+function shipHitCheck(row, col, board) {
+  const hitCoordinates = board.landedShots;
+  return hitCoordinates.some(([r, c]) => {
+    return row === r && col === c;
+  });
+}
+
 export function handlePlayerAttack(row, col, attacker, defender) {
   console.log(`Player tries to hit Row:${row}, Col:${col}`);
   const successfulAttack = defender.board.receiveAttack(row, col);
   if (!successfulAttack) return;
 
   let allShipsHit = defender.board.allShipsSunked();
-  if (allShipsHit) console.log(`${attacker.playerName} wins the game !!!`);
+  if (allShipsHit) {
+    console.log(`${attacker.playerName} wins the game !!!`);
+    return;
+  }
+  const shipHit = shipHitCheck(row, col, defender.board);
+  if (shipHit) playerMove(attacker, defender);
   else switchPlayerTurn(attacker);
 }
 
@@ -75,6 +87,24 @@ function switchPlayerTurn(previousAttacker) {
 }
 
 function computerMove(attacker, defender, whichBoard = intialAttackerBoard) {
+  const [row, col] = handleComputerAttack(defender);
+  renderMissedAndDamagedCells(defender, whichBoard);
+
+  if (defender.board.allShipsSunked()) {
+    console.log(`${defender.playerName} lost the game !!!`);
+    return;
+  }
+
+  const shipHit = shipHitCheck(row, col, defender.board);
+  if (shipHit) {
+    handleComputerAttack(defender);
+    renderMissedAndDamagedCells(defender, whichBoard);
+  } else switchPlayerTurn(attacker);
+
+  return;
+}
+
+function handleComputerAttack(defender) {
   let row, col;
   do {
     row = Math.floor(Math.random() * 10);
@@ -82,14 +112,7 @@ function computerMove(attacker, defender, whichBoard = intialAttackerBoard) {
     console.log(`Computer attacking Row:${row}, Column;${col}`);
   } while (!defender.board.receiveAttack(row, col));
 
-  renderMissedAndDamagedCells(defender, whichBoard);
-
-  if (defender.board.allShipsSunked()) {
-    console.log(`${defender.playerName} lost the game !!!`);
-  } else {
-    switchPlayerTurn(attacker);
-  }
-  return;
+  return [row, col];
 }
 
 export function startGame() {
