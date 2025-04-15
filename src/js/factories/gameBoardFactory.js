@@ -148,4 +148,17 @@ export class GameBoard {
   allShipsSunked() {
     return this.allShips.every((ship) => ship.isSunk());
   }
+
+  calculateHealth() {
+    const shipsLengthTotal = this.allShips.reduce((total, currentShip) => {
+      return total + currentShip.length;
+    }, 0);
+
+    const totalHits = this.landedShots.length;
+    const health = Math.floor(
+      ((shipsLengthTotal - totalHits) / shipsLengthTotal) * 100,
+    );
+
+    return health;
+  }
 }

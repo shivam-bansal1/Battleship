@@ -1,4 +1,4 @@
-import { renderMissedAndDamagedCells } from "./DOM";
+import { updateGameboard } from "./DOM";
 import {
   playerOne,
   playerTwo,
@@ -42,7 +42,7 @@ function playerMove(attacker, defender, whichBoard = intialDefenderBoard) {
     const column = parseInt(cellNumber.slice(1)) - 1;
 
     handlePlayerAttack(row, column, attacker, defender);
-    renderMissedAndDamagedCells(defender, whichBoard);
+    updateGameboard(defender, whichBoard);
   }
 }
 
@@ -88,7 +88,7 @@ function switchPlayerTurn(previousAttacker) {
 
 function computerMove(attacker, defender, whichBoard = intialAttackerBoard) {
   const [row, col] = handleComputerAttack(defender);
-  renderMissedAndDamagedCells(defender, whichBoard);
+  updateGameboard(defender, whichBoard);
 
   if (defender.board.allShipsSunked()) {
     console.log(`${defender.playerName} lost the game !!!`);
@@ -98,7 +98,7 @@ function computerMove(attacker, defender, whichBoard = intialAttackerBoard) {
   const shipHit = shipHitCheck(row, col, defender.board);
   if (shipHit) {
     handleComputerAttack(defender);
-    renderMissedAndDamagedCells(defender, whichBoard);
+    updateGameboard(defender, whichBoard);
   } else switchPlayerTurn(attacker);
 
   return;

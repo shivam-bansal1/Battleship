@@ -1,5 +1,3 @@
-import { placeShipsRandomly } from "./gameController";
-
 function generateSquares(whichBoard) {
   const gameboardContainer = document.querySelector(`#${whichBoard}`);
   for (let row = 0; row < 10; row++) {
@@ -55,9 +53,25 @@ function showDamagedCells(player, playerBoard) {
   });
 }
 
-export function renderMissedAndDamagedCells(player, whichBoard) {
+function updateHealth(player, whichBoard) {
+  const updatedScore = player.board.calculateHealth();
+  console.log(updatedScore);
+  let healthContainer;
+  if (whichBoard === "first-board")
+    healthContainer = document.querySelector("#first-player-health");
+  else healthContainer = document.querySelector("#second-player-health");
+
+  console.log(healthContainer);
+  healthContainer.textContent = updatedScore + " ";
+  const heartSymbol = document.createElement("i");
+  heartSymbol.classList.add("heart-symbol", "fa-regular", "fa-heart");
+  healthContainer.appendChild(heartSymbol);
+}
+
+export function updateGameboard(player, whichBoard) {
   const playerBoard = document.querySelector(`#${whichBoard}`);
 
   showMissedCells(player, playerBoard);
   showDamagedCells(player, playerBoard);
+  updateHealth(player, whichBoard);
 }
