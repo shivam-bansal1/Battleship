@@ -55,13 +55,11 @@ function showDamagedCells(player, playerBoard) {
 
 function updateHealth(player, whichBoard) {
   const updatedScore = player.board.calculateHealth();
-  console.log(updatedScore);
   let healthContainer;
   if (whichBoard === "first-board")
     healthContainer = document.querySelector("#first-player-health");
   else healthContainer = document.querySelector("#second-player-health");
 
-  console.log(healthContainer);
   healthContainer.textContent = updatedScore + " ";
   const heartSymbol = document.createElement("i");
   heartSymbol.classList.add("heart-symbol", "fa-regular", "fa-heart");

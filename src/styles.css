@@ -14,12 +14,13 @@ body {
   align-items: center;
   background-color: #1a1a1a;
   color: #faebd7;
+  box-sizing: border-box;
 }
 
 header {
   font-family: var(--header-font);
   font-size: 54px;
-  margin: 20px;
+  margin: 16px;
 }
 
 .board-container {
@@ -74,13 +75,40 @@ main {
   background-color: #cd7f32;
 }
 
-footer {
-  position: fixed;
-  bottom: 10px;
+.events-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
 
-  font-family: "Roboto";
-  font-weight: 400;
-  font-size: 18px;
+.event-log {
+  background-color: transparent;
+  color: #cd7f32;
+  border: #cd7f32 solid 2px;
+  border-radius: 10px;
+  overflow: auto;
+  height: 140px;
+  width: 800px;
+}
+
+.event {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-block-end: solid #cd7f32 2px;
+}
+
+.event-description {
+  width: 100%;
+  text-align: center;
+  border-left: solid #a9a9a9 2px;
+}
+
+.turn,
+.event-description {
+  padding-left: 8px;
+  font-size: 16px;
 }
 
 a,
@@ -96,4 +124,13 @@ i {
 
 i:hover {
   transform: scale(1.5);
+}
+
+footer {
+  position: fixed;
+  bottom: 10px;
+
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 18px;
 }
