@@ -73,3 +73,23 @@ export function updateGameboard(player, whichBoard) {
   showDamagedCells(player, playerBoard);
   updateHealth(player, whichBoard);
 }
+
+export function displayEventLog(firstMsg, secondMsg, whichEvent, turnNumber) {
+  const eventsContainer = document.querySelector(".event-log");
+
+  const eventElement = document.createElement("div");
+  eventElement.className = "event";
+
+  const turnElement = document.createElement("p");
+  turnElement.className = "turn";
+  turnElement.textContent = turnNumber;
+
+  const messageElement = document.createElement("p");
+  messageElement.classList.add("event-description", `${whichEvent}-event`);
+  messageElement.innerHTML = `${firstMsg} <br> ${secondMsg}`;
+
+  eventElement.appendChild(turnElement);
+  eventElement.appendChild(messageElement);
+
+  eventsContainer.prepend(eventElement);
+}

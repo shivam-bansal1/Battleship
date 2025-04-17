@@ -1,5 +1,7 @@
 export class eventLog {
   constructor() {
+    this.moveNumber = 1;
+
     this.attackVerbs = [
       "charges at",
       "strikes",
@@ -43,12 +45,20 @@ export class eventLog {
 
     this.gameOverPhrases = [
       "wins",
-      "conqueres",
+      "conquerors the game",
       "is victorious",
       "prevails",
       "beats the opponenet",
       "takes the cup home",
     ];
+  }
+
+  getMoveNumber() {
+    return this.moveNumber;
+  }
+
+  incrementMoveNumber() {
+    this.moveNumber++;
   }
 
   getRandom(arr) {
@@ -61,28 +71,29 @@ export class eventLog {
 
     switch (whichEvent) {
       case "hit":
-        firstMessage = `${attacker} ${getRandom(this.attackVerbs)} ${cellID} and ${getRandom(this.hitVerbs)} a ship!`;
-        secondMessage = attacker + "gets to strike again.";
-        return firstMessage, secondMessage;
+        firstMessage = `${attacker} ${this.getRandom(this.attackVerbs)} ${cellID} and ${this.getRandom(this.hitVerbs)} a ship!`;
+        secondMessage = attacker + " gets to strike again.";
+        return { firstMessage, secondMessage };
 
       case "miss":
-        firstMessage = `${attacker} ${getRandom(this.attackVerbs)} ${cellID} and ${getRandom(this.missVerbs)}.`;
-        secondMessage = `${getRandom(this.missPhrases)}, ${attacker}`;
-        return firstMessage, secondMessage;
+        firstMessage = `${attacker} ${this.getRandom(this.attackVerbs)} ${cellID} and ${this.getRandom(this.missVerbs)}.`;
+        secondMessage = `${this.getRandom(this.missPhrases)}, ${attacker}`;
+        return { firstMessage, secondMessage };
 
       case "sunk":
-        firstMessage = `${attacker} ${getRandom(this.attackVerbs)} ${cellID} and a ship ${getRandom(this.sinkVerbs)}!`;
-        secondMessage = attacker + "gets to strike again.";
-        return firstMessage, secondMessage;
+        firstMessage = `${attacker} ${this.getRandom(this.attackVerbs)} ${cellID} and a ship ${this.getRandom(this.sinkVerbs)}!`;
+        secondMessage = attacker + " gets to strike again.";
+        return { firstMessage, secondMessage };
 
       case "win":
-        firstMessage = `${attacker} ${getRandom(this.attackVerbs)} ${cellID} and a ship ${getRandom(this.sinkVerbs)}!`;
-        secondMessage = attacker + getRandom(this.gameOverPhrases);
-        return firstMessage, secondMessage;
+        firstMessage = `${attacker} ${this.getRandom(this.attackVerbs)} ${cellID} and a ship ${this.getRandom(this.sinkVerbs)}!`;
+        secondMessage = attacker + ` ${this.getRandom(this.gameOverPhrases)}`;
+        return { firstMessage, secondMessage };
 
       default:
         firstMessage = `${attacker} attacked ${cellID}`;
-        return firstMessage, "";
+        secondMessage = "";
+        return { firstMessage, secondMessage };
     }
   }
 }

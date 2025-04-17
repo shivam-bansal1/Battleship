@@ -1,10 +1,13 @@
-import { updateGameboard } from "./DOM";
+import { updateGameboard, displayEventLog } from "./DOM";
 import {
   playerOne,
   playerTwo,
   intialDefenderBoard,
   intialAttackerBoard,
 } from "../index";
+
+import { eventLog } from "./factories/eventFactory";
+const logger = new eventLog();
 
 export function placeShipsRandomly(player) {
   const shipLengths = [5, 4, 3, 3, 2];
@@ -53,6 +56,17 @@ function shipHitCheck(row, col, board) {
   });
 }
 
+function fetchEventMessage(attacker, row, col, event) {
+  const { firstMessage, secondMessage } = logger.getMessage(
+    attacker,
+    row,
+    col,
+    event,
+  );
+  displayEventLog(firstMessage, secondMessage, event, logger.getMoveNumber());
+  logger.incrementMoveNumber();
+}
+
 export function handlePlayerAttack(row, col, attacker, defender) {
   console.log(`Player tries to hit Row:${row}, Col:${col}`);
   const successfulAttack = defender.board.receiveAttack(row, col);
@@ -60,12 +74,18 @@ export function handlePlayerAttack(row, col, attacker, defender) {
 
   let allShipsHit = defender.board.allShipsSunked();
   if (allShipsHit) {
+    fetchEventMessage(attacker.playerName, row, col, "win");
     console.log(`${attacker.playerName} wins the game !!!`);
     return;
   }
   const shipHit = shipHitCheck(row, col, defender.board);
-  if (shipHit) playerMove(attacker, defender);
-  else switchPlayerTurn(attacker);
+  if (shipHit) {
+    fetchEventMessage(attacker.playerName, row, col, "hit");
+    playerMove(attacker, defender);
+  } else {
+    fetchEventMessage(attacker.playerName, row, col, "miss");
+    switchPlayerTurn(attacker);
+  }
 }
 
 function switchPlayerTurn(previousAttacker) {
@@ -91,15 +111,20 @@ function computerMove(attacker, defender, whichBoard = intialAttackerBoard) {
   updateGameboard(defender, whichBoard);
 
   if (defender.board.allShipsSunked()) {
+    fetchEventMessage(attacker.playerName, row, col, "win");
     console.log(`${defender.playerName} lost the game !!!`);
     return;
   }
 
   const shipHit = shipHitCheck(row, col, defender.board);
   if (shipHit) {
+    fetchEventMessage(attacker.playerName, row, col, "hit");
     handleComputerAttack(defender);
     updateGameboard(defender, whichBoard);
-  } else switchPlayerTurn(attacker);
+  } else {
+    fetchEventMessage(attacker.playerName, row, col, "miss");
+    switchPlayerTurn(attacker);
+  }
 
   return;
 }
