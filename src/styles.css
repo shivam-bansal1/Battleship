@@ -79,6 +79,10 @@ main {
   background-color: #ff4500 !important;
 }
 
+.sunk-square {
+  background-color: #708238 !important;
+}
+
 .ship {
   background-color: #cd7f32;
 }
@@ -125,6 +129,11 @@ p.turn {
 
 .hit-event {
   border-left: solid #ff4500 5px;
+}
+
+.sunk-event,
+.win-event {
+  border-left: solid #708238 5px;
 }
 
 .turn,

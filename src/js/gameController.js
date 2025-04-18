@@ -1,4 +1,4 @@
-import { updateGameboard, displayEventLog } from "./DOM";
+import { updateGameboard, displayEventLog, showSunkShips } from "./DOM";
 import {
   playerOne,
   playerTwo,
@@ -26,29 +26,6 @@ export function placeShipsRandomly(player) {
   });
 }
 
-function playerMove(attacker, defender, whichBoard = intialDefenderBoard) {
-  const defenderBoard = document.querySelector(`#${whichBoard}`);
-
-  if (!defenderBoard.dataset.listenerAttached) {
-    defenderBoard.addEventListener("click", onBoardClick);
-    defenderBoard.dataset.listenerAttached = "true";
-  }
-
-  function onBoardClick(event) {
-    const cell = event.target;
-    if (!cell.classList.contains("square")) return;
-
-    const cellNumber = cell.getAttribute("data-id");
-    if (!cellNumber) return;
-
-    const row = cellNumber.charCodeAt(0) - 65;
-    const column = parseInt(cellNumber.slice(1)) - 1;
-
-    handlePlayerAttack(row, column, attacker, defender);
-    updateGameboard(defender, whichBoard);
-  }
-}
-
 function shipHitCheck(row, col, board) {
   const hitCoordinates = board.landedShots;
   return hitCoordinates.some(([r, c]) => {
@@ -67,17 +44,46 @@ function fetchEventMessage(attacker, row, col, event) {
   logger.incrementMoveNumber();
 }
 
-export function handlePlayerAttack(row, col, attacker, defender) {
+function playerMove(attacker, defender, whichBoard = intialDefenderBoard) {
+  const defenderBoard = document.querySelector(`#${whichBoard}`);
+
+  if (!defenderBoard.dataset.listenerAttached) {
+    defenderBoard.addEventListener("click", onBoardClick);
+    defenderBoard.dataset.listenerAttached = "true";
+  }
+
+  function onBoardClick(event) {
+    const cell = event.target;
+    if (!cell.classList.contains("square")) return;
+
+    const cellNumber = cell.getAttribute("data-id");
+    if (!cellNumber) return;
+
+    const row = cellNumber.charCodeAt(0) - 65;
+    const column = parseInt(cellNumber.slice(1)) - 1;
+
+    handlePlayerAttack(row, column, attacker, defender, whichBoard);
+    updateGameboard(defender, whichBoard);
+  }
+}
+
+export function handlePlayerAttack(row, col, attacker, defender, whichBoard) {
   const successfulAttack = defender.board.receiveAttack(row, col);
   if (!successfulAttack) return;
+
+  const shipHit = shipHitCheck(row, col, defender.board);
+  const [shipDestroyed, whichShip] = defender.board.shipSunk(row, col);
 
   let allShipsHit = defender.board.allShipsSunked();
   if (allShipsHit) {
     fetchEventMessage(attacker.playerName, row, col, "win");
+    showSunkShips(defender, whichBoard, whichShip);
     return;
-  }
-  const shipHit = shipHitCheck(row, col, defender.board);
-  if (shipHit) {
+  } else if (shipDestroyed) {
+    fetchEventMessage(attacker.playerName, row, col, "sunk");
+    showSunkShips(defender, whichBoard, whichShip);
+    playerMove(attacker, defender);
+  } else if (shipHit) {
     fetchEventMessage(attacker.playerName, row, col, "hit");
     playerMove(attacker, defender);
   } else {
@@ -108,13 +114,19 @@ function computerMove(attacker, defender, whichBoard = intialAttackerBoard) {
   const [row, col] = handleComputerAttack(defender);
   updateGameboard(defender, whichBoard);
 
+  const shipHit = shipHitCheck(row, col, defender.board);
+  const [shipDestroyed, whichShip] = defender.board.shipSunk(row, col);
+
   if (defender.board.allShipsSunked()) {
+    showSunkShips(defender, whichBoard, whichShip);
     fetchEventMessage(attacker.playerName, row, col, "win");
     return;
-  }
-
-  const shipHit = shipHitCheck(row, col, defender.board);
-  if (shipHit) {
+  } else if (shipDestroyed) {
+    fetchEventMessage(attacker.playerName, row, col, "sunk");
+    handleComputerAttack(defender);
+    updateGameboard(defender, whichBoard);
+    showSunkShips(defender, whichBoard, whichShip);
+  } else if (shipHit) {
     fetchEventMessage(attacker.playerName, row, col, "hit");
     handleComputerAttack(defender);
     updateGameboard(defender, whichBoard);

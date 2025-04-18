@@ -66,6 +66,19 @@ function showDamagedCells(player, playerBoard) {
   });
 }
 
+export function showSunkShips(player, whichBoard, whichShip) {
+  const playerBoard = document.querySelector(`#${whichBoard}`);
+  const landedShortsCoordinates = player.board.landedShots;
+
+  landedShortsCoordinates.forEach(([row, col]) => {
+    if (player.board.board[row][col] === whichShip) {
+      const cellID = `${String.fromCharCode(65 + row)}${col + 1}`;
+      const domCell = playerBoard.querySelector(`.square[data-id="${cellID}"]`);
+      domCell.classList.add("sunk-square");
+    }
+  });
+}
+
 function updateHealth(player, whichBoard) {
   const updatedScore = player.board.calculateHealth();
   let healthContainer;

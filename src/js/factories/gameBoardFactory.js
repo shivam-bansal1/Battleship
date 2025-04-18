@@ -145,6 +145,15 @@ export class GameBoard {
     return false;
   }
 
+  shipSunk(row, column) {
+    let shipAttacked = this.board[row][column];
+
+    if (shipAttacked !== "Missed" && typeof shipAttacked.hit === "function") {
+      if (shipAttacked.isSunk()) return [true, shipAttacked];
+    }
+    return [false, shipAttacked];
+  }
+
   allShipsSunked() {
     return this.allShips.every((ship) => ship.isSunk());
   }
