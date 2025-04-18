@@ -1,10 +1,23 @@
 function generateSquares(whichBoard) {
   const gameboardContainer = document.querySelector(`#${whichBoard}`);
-  for (let row = 0; row < 10; row++) {
-    for (let col = 1; col <= 10; col++) {
+  for (let row = 0; row <= 10; row++) {
+    for (let col = 0; col <= 10; col++) {
       const square = document.createElement("div");
-      square.classList.add("square");
-      square.dataset.id = `${String.fromCharCode(65 + row)}${col}`;
+      if (row === 0 && col === 0) {
+        square.classList.add("cell-header");
+        square.textContent = "";
+      } else if (row !== 0 && col === 0) {
+        square.classList.add("cell-header");
+        square.textContent = `${String.fromCharCode(64 + row)}`;
+        square.dataset.id = `${String.fromCharCode(64 + row)}`;
+      } else if (row === 0 && col !== 0) {
+        square.classList.add("cell-header");
+        square.textContent = col;
+        square.dataset.id = col;
+      } else {
+        square.classList.add("square");
+        square.dataset.id = `${String.fromCharCode(64 + row)}${col}`;
+      }
       gameboardContainer.appendChild(square);
     }
   }

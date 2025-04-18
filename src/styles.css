@@ -19,8 +19,8 @@ body {
 
 header {
   font-family: var(--header-font);
-  font-size: 54px;
-  margin: 16px;
+  font-size: 50px;
+  margin: 10px;
 }
 
 .board-container {
@@ -35,7 +35,7 @@ main {
   align-items: center;
   font-family: "Roboto";
   font-weight: 400;
-  font-size: 30px;
+  font-size: 26px;
 }
 
 .board-area {
@@ -52,7 +52,7 @@ main {
 
 .gameboard {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(11, 1fr);
   gap: 1px;
 }
 
@@ -61,6 +61,14 @@ main {
   height: 35px;
   outline: 1px #b87333 solid;
   cursor: pointer;
+}
+
+.cell-header {
+  font-size: 16px;
+  color: #cd7f32;
+  font-weight: bold;
+  text-align: center;
+  line-height: 30px;
 }
 
 .missed-square {
@@ -99,10 +107,24 @@ main {
   border-block-end: solid #cd7f32 2px;
 }
 
+p.turn {
+  vertical-align: middle;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+}
+
 .event-description {
   width: 100%;
   text-align: center;
-  border-left: solid #a9a9a9 2px;
+}
+
+.miss-event {
+  border-left: solid #a9a9a9 5px;
+}
+
+.hit-event {
+  border-left: solid #ff4500 5px;
 }
 
 .turn,
@@ -132,5 +154,5 @@ footer {
 
   font-family: "Roboto";
   font-weight: 400;
-  font-size: 18px;
+  font-size: 14px;
 }

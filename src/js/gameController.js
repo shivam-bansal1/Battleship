@@ -68,14 +68,12 @@ function fetchEventMessage(attacker, row, col, event) {
 }
 
 export function handlePlayerAttack(row, col, attacker, defender) {
-  console.log(`Player tries to hit Row:${row}, Col:${col}`);
   const successfulAttack = defender.board.receiveAttack(row, col);
   if (!successfulAttack) return;
 
   let allShipsHit = defender.board.allShipsSunked();
   if (allShipsHit) {
     fetchEventMessage(attacker.playerName, row, col, "win");
-    console.log(`${attacker.playerName} wins the game !!!`);
     return;
   }
   const shipHit = shipHitCheck(row, col, defender.board);
@@ -112,7 +110,6 @@ function computerMove(attacker, defender, whichBoard = intialAttackerBoard) {
 
   if (defender.board.allShipsSunked()) {
     fetchEventMessage(attacker.playerName, row, col, "win");
-    console.log(`${defender.playerName} lost the game !!!`);
     return;
   }
 
@@ -134,7 +131,6 @@ function handleComputerAttack(defender) {
   do {
     row = Math.floor(Math.random() * 10);
     col = Math.floor(Math.random() * 10);
-    console.log(`Computer attacking Row:${row}, Column;${col}`);
   } while (!defender.board.receiveAttack(row, col));
 
   return [row, col];
