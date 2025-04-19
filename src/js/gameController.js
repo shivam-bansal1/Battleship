@@ -1,4 +1,9 @@
-import { updateGameboard, displayEventLog, showSunkShips } from "./DOM";
+import {
+  updateGameboard,
+  displayEventLog,
+  showSunkShips,
+  renderGameOverDialog,
+} from "./DOM";
 import {
   playerOne,
   playerTwo,
@@ -44,6 +49,12 @@ function fetchEventMessage(attacker, row, col, event) {
   logger.incrementMoveNumber();
 }
 
+function stopGame() {
+  let renderedBoard = document.querySelector(`#${intialDefenderBoard}`);
+  let updatedBoard = renderedBoard.cloneNode(true);
+  renderedBoard.parentNode.replaceChild(updatedBoard, renderedBoard);
+}
+
 function playerMove(attacker, defender, whichBoard = intialDefenderBoard) {
   const defenderBoard = document.querySelector(`#${whichBoard}`);
 
@@ -78,7 +89,12 @@ export function handlePlayerAttack(row, col, attacker, defender, whichBoard) {
   if (allShipsHit) {
     fetchEventMessage(attacker.playerName, row, col, "win");
     showSunkShips(defender, whichBoard, whichShip);
-    return;
+    stopGame();
+    renderGameOverDialog(
+      attacker.playerName,
+      defender.board.missedShots.length + defender.board.landedShots.length,
+      attacker.board.missedShots.length + attacker.board.landedShots.length,
+    );
   } else if (shipDestroyed) {
     fetchEventMessage(attacker.playerName, row, col, "sunk");
     showSunkShips(defender, whichBoard, whichShip);
@@ -120,7 +136,12 @@ function computerMove(attacker, defender, whichBoard = intialAttackerBoard) {
   if (defender.board.allShipsSunked()) {
     showSunkShips(defender, whichBoard, whichShip);
     fetchEventMessage(attacker.playerName, row, col, "win");
-    return;
+    stopGame();
+    renderGameOverDialog(
+      attacker.playerName,
+      defender.board.missedShots.length + defender.board.landedShots.length,
+      attacker.board.missedShots.length + attacker.board.landedShots.length,
+    );
   } else if (shipDestroyed) {
     fetchEventMessage(attacker.playerName, row, col, "sunk");
     handleComputerAttack(defender);

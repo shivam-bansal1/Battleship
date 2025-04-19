@@ -119,3 +119,23 @@ export function displayEventLog(firstMsg, secondMsg, whichEvent, turnNumber) {
 
   eventsContainer.prepend(eventElement);
 }
+
+export function renderGameOverDialog(winner, winnerMoves, loserMoves) {
+  const dialogBox = document.querySelector("#game-over-dailog");
+
+  const winnerElement = dialogBox.querySelector(".winner.value");
+  winnerElement.textContent = winner;
+  const winnerMovesElement = dialogBox.querySelector(".winner-moves.value");
+  winnerMovesElement.textContent = winnerMoves;
+  const loseMovesElement = dialogBox.querySelector(".loser-moves.value");
+  loseMovesElement.textContent = loserMoves;
+
+  dialogBox.showModal();
+  document.querySelector("body").style.opacity = 0.09;
+
+  const newGameButton = document.querySelector("#new-game-button");
+  newGameButton.addEventListener("click", () => {
+    dialogBox.close();
+    document.querySelector("body").style.opacity = 1;
+  });
+}

@@ -10,6 +10,7 @@ function renderMainPage(playerOne, playerTwo) {
   placeShipsRandomly(playerTwo);
 
   showShipsOnBoard(playerOne, "first-board");
+  showShipsOnBoard(playerTwo, "second-board");
 }
 
 export const playerOne = new Player("Shivam", "human");
