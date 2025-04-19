@@ -10,14 +10,25 @@ function renderMainPage(playerOne, playerTwo) {
   placeShipsRandomly(playerTwo);
 
   showShipsOnBoard(playerOne, "first-board");
-  showShipsOnBoard(playerTwo, "second-board");
 }
 
-export const playerOne = new Player("Shivam", "human");
-export const playerTwo = new Player("Computer");
-export const intialDefenderBoard = "second-board";
-export const intialAttackerBoard = "first-board";
+let playerOne, playerTwo;
+export function getPlayerOne() {
+  return playerOne;
+}
+export function getPlayerTwo() {
+  return playerTwo;
+}
 
-renderMainPage(playerOne, playerTwo);
+export let intialDefenderBoard = "second-board";
+export let intialAttackerBoard = "first-board";
 
-startGame();
+export function intializeGame() {
+  playerOne = new Player("Shivam", "human");
+  playerTwo = new Player("Computer");
+
+  renderMainPage(playerOne, playerTwo);
+  startGame();
+}
+
+intializeGame();

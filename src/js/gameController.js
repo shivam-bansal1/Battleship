@@ -5,8 +5,8 @@ import {
   renderGameOverDialog,
 } from "./DOM";
 import {
-  playerOne,
-  playerTwo,
+  getPlayerOne,
+  getPlayerTwo,
   intialDefenderBoard,
   intialAttackerBoard,
 } from "../index";
@@ -58,12 +58,12 @@ function stopGame() {
 function playerMove(attacker, defender, whichBoard = intialDefenderBoard) {
   const defenderBoard = document.querySelector(`#${whichBoard}`);
 
-  if (!defenderBoard.dataset.listenerAttached) {
-    defenderBoard.addEventListener("click", onBoardClick);
-    defenderBoard.dataset.listenerAttached = "true";
-  }
+  // Remove previous listener by replacing node (clean slate)
+  const newBoard = defenderBoard.cloneNode(true);
+  defenderBoard.parentNode.replaceChild(newBoard, defenderBoard);
 
-  function onBoardClick(event) {
+  // Attach listener again
+  newBoard.addEventListener("click", function onBoardClick(event) {
     const cell = event.target;
     if (!cell.classList.contains("square")) return;
 
@@ -75,7 +75,7 @@ function playerMove(attacker, defender, whichBoard = intialDefenderBoard) {
 
     handlePlayerAttack(row, column, attacker, defender, whichBoard);
     updateGameboard(defender, whichBoard);
-  }
+  });
 }
 
 export function handlePlayerAttack(row, col, attacker, defender, whichBoard) {
@@ -111,12 +111,12 @@ export function handlePlayerAttack(row, col, attacker, defender, whichBoard) {
 function switchPlayerTurn(previousAttacker) {
   let newAttacker, newDefender;
 
-  if (previousAttacker === playerOne) {
-    newAttacker = playerTwo;
-    newDefender = playerOne;
+  if (previousAttacker === getPlayerOne()) {
+    newAttacker = getPlayerTwo();
+    newDefender = getPlayerOne();
   } else {
-    newAttacker = playerOne;
-    newDefender = playerTwo;
+    newAttacker = getPlayerOne();
+    newDefender = getPlayerTwo();
   }
 
   if (newAttacker.playerType === "computer") {
@@ -170,5 +170,5 @@ function handleComputerAttack(defender) {
 }
 
 export function startGame() {
-  playerMove(playerOne, playerTwo);
+  playerMove(getPlayerOne(), getPlayerTwo());
 }

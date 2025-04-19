@@ -1,3 +1,5 @@
+import { intializeGame } from "../index";
+
 function generateSquares(whichBoard) {
   const gameboardContainer = document.querySelector(`#${whichBoard}`);
   for (let row = 0; row <= 10; row++) {
@@ -137,5 +139,13 @@ export function renderGameOverDialog(winner, winnerMoves, loserMoves) {
   newGameButton.addEventListener("click", () => {
     dialogBox.close();
     document.querySelector("body").style.opacity = 1;
+
+    document.querySelector("#first-board").innerHTML = "";
+    document.querySelector("#second-board").innerHTML = "";
+    document.querySelector(".event-log").innerHTML = "";
+    document.querySelector("#first-player-health").innerHTML = "";
+    document.querySelector("#second-player-health").innerHTML = "";
+
+    intializeGame();
   });
 }
