@@ -149,3 +149,30 @@ export function renderGameOverDialog(winner, winnerMoves, loserMoves) {
     intializeGame();
   });
 }
+
+export function renderGameStartDialog(player, whichBoard) {
+  const dialogBox = document.querySelector("#game-start-dialog");
+  const startDialogBoard = dialogBox.querySelector("#start-dialog-board");
+  startDialogBoard.innerHTML = "";
+  generateSquares("start-dialog-board");
+
+  // Show player's ships in dialog
+  showShipsOnBoard(player, "start-dialog-board");
+
+  dialogBox.showModal();
+  document.querySelector("body").style.opacity = 0.05;
+
+  const startButton = dialogBox.querySelector("#start-button");
+  startButton.addEventListener("click", () => {
+    const mainBoard = document.querySelector(`#${whichBoard}`);
+
+    // Transfer DOM nodes from dialog board to main board
+    mainBoard.innerHTML = "";
+    Array.from(startDialogBoard.children).forEach((child) => {
+      mainBoard.appendChild(child.cloneNode(true));
+    });
+
+    dialogBox.close();
+    document.querySelector("body").style.opacity = 1;
+  });
+}

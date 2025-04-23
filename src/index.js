@@ -1,7 +1,11 @@
 import "./styles.css";
 import { placeShipsRandomly, startGame } from "./js/gameController.js";
 import { Player } from "./js/factories/playerFactory.js";
-import { renderGameboards, showShipsOnBoard } from "./js/DOM.js";
+import {
+  renderGameboards,
+  showShipsOnBoard,
+  renderGameStartDialog,
+} from "./js/DOM.js";
 
 function renderMainPage(playerOne, playerTwo) {
   renderGameboards();
@@ -27,6 +31,7 @@ export function intializeGame() {
   playerOne = new Player("Shivam", "human");
   playerTwo = new Player("Computer");
 
+  renderGameStartDialog(playerOne, "first-board");
   renderMainPage(playerOne, playerTwo);
   startGame();
 }

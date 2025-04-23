@@ -15,14 +15,18 @@
       <div class="board-container">
         <div id="first-board-area" class="board-area">
           <div class="player-title" id="first-player-name">Player</div>
-          <div class="gameboard" id="first-board"></div>
+          <div class="first-board-container">
+            <div class="gameboard" id="first-board"></div>
+          </div>
           <div class="health-details" id="first-player-health">
             100 <i class="fa-regular fa-heart"></i>
           </div>
         </div>
         <div id="second-board-area" class="board-area">
           <div class="player-title" id="second-player-name">Computer</div>
-          <div class="gameboard" id="second-board"></div>
+          <div class="second-board-container">
+            <div class="gameboard" id="second-board"></div>
+          </div>
           <div class="health-details" id="second-player-health">
             100 <i class="fa-regular fa-heart"></i>
           </div>
@@ -33,8 +37,22 @@
         <label for="events">Events</label>
         <div class="event-log"></div>
       </div>
-      <dialog id="game-over-dailog">
-        <div class="game-over-dailog-div">
+
+      <dialog id="game-start-dialog">
+        <div class="game-start-dialog-content">
+          <h4>Place Your Ships</h4>
+          <div class="gameboard ship-placement" id="ship-placement-board">
+            <div id="start-dialog-board" class="gameboard"></div>
+          </div>
+          <div id="ship-panel"></div>
+          <div class="start-button-container">
+            <button id="start-button">Start Game</button>
+          </div>
+        </div>
+      </dialog>
+
+      <dialog id="game-over-dialog">
+        <div class="game-over-dialog-div">
           <div class="game-over-divs">
             <p class="winner heading">Winner</p>
             <p class="winner value"></p>
