@@ -41,10 +41,20 @@
       <dialog id="game-start-dialog">
         <div class="game-start-dialog-content">
           <h4>Place Your Ships</h4>
-          <div class="gameboard ship-placement" id="ship-placement-board">
-            <div id="start-dialog-board" class="gameboard"></div>
+          <div class="board-ship-container">
+            <div class="ship-placement" id="ship-placement-board">
+              <div id="start-dialog-board" class="gameboard"></div>
+            </div>
+            <div id="ship-wrapper">
+              <div class="orientation">
+                <p>Vertical</p>
+                <input type="checkbox" id="orientation-check" />
+                <label class="switch" for="orientation-check"> </label>
+                <p>Horizontal</p>
+              </div>
+              <div class="ships-panel"></div>
+            </div>
           </div>
-          <div id="ship-panel"></div>
           <div class="start-button-container">
             <button id="start-button">Start Game</button>
           </div>

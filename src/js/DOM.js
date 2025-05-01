@@ -162,6 +162,8 @@ export function renderGameStartDialog(player, whichBoard) {
   dialogBox.showModal();
   document.querySelector("body").style.opacity = 0.05;
 
+  renderDraggableShips();
+
   const startButton = dialogBox.querySelector("#start-button");
   startButton.addEventListener("click", () => {
     const mainBoard = document.querySelector(`#${whichBoard}`);
@@ -174,5 +176,41 @@ export function renderGameStartDialog(player, whichBoard) {
 
     dialogBox.close();
     document.querySelector("body").style.opacity = 1;
+  });
+}
+
+function renderDraggableShips() {
+  const orientationCheckBox = document.querySelector("#orientation-check");
+  console.log(orientationCheckBox);
+  const shipPanel = document.querySelector(".ships-panel");
+
+  function renderShips(orientation) {
+    shipPanel.innerHTML = "";
+    shipPanel.className = "";
+    shipPanel.classList.add("ships-panel", orientation);
+
+    const shipLength = [5, 4, 3, 3, 2];
+    shipLength.forEach((length) => {
+      const ship = document.createElement("div");
+      ship.classList.add("draggable-ship", orientation);
+      ship.style.setProperty("--length", length);
+      ship.dataset.length = length;
+
+      for (let i = 0; i < length; i++) {
+        const square = document.createElement("div");
+        square.classList.add("draggable-square");
+        ship.appendChild(square);
+      }
+      shipPanel.appendChild(ship);
+    });
+  }
+
+  // Initial render
+  renderShips(orientationCheckBox.checked ? "horizontal" : "vertical");
+
+  // Re-render on toggle
+  orientationCheckBox.addEventListener("change", (e) => {
+    const newOrientation = e.target.checked ? "horizontal" : "vertical";
+    renderShips(newOrientation);
   });
 }

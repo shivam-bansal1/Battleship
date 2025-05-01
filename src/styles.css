@@ -251,3 +251,93 @@ footer {
 #start-dialog-board .cell-header {
   margin-right: 5px;
 }
+
+.board-ship-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.ships-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: start;
+}
+
+.ships-panel {
+  display: flex;
+  gap: 10px;
+}
+.ships-panel.vertical {
+  flex-direction: row;
+}
+
+.ships-panel.horizontal {
+  flex-direction: column;
+}
+
+/* Common ship styling */
+.draggable-ship {
+  display: grid;
+  cursor: pointer;
+}
+
+/* Horizontal ships (width based on length) */
+.draggable-ship.horizontal {
+  grid-template-columns: repeat(var(--length), 35px);
+  height: 35px;
+}
+
+/* Vertical ships (height based on length) */
+.draggable-ship.vertical {
+  grid-template-rows: repeat(var(--length), 35px);
+  width: 35px;
+}
+.draggable-square {
+  width: 35px;
+  height: 35px;
+  background-color: #ff4500;
+  border: 2px solid white;
+  box-sizing: border-box;
+}
+
+/* TOGGLE CSS */
+.orientation {
+  display: flex;
+  align-items: center;
+  color: whitesmoke;
+  font-size: 22px;
+  gap: 20px;
+}
+
+input[type="checkbox"]#orientation-check {
+  display: none;
+}
+
+.switch {
+  background-color: rgb(178, 178, 178);
+  width: 2.4em;
+  height: 1.2em;
+  border-radius: 1em;
+  cursor: pointer;
+  position: relative;
+}
+
+.switch::before {
+  position: absolute;
+  content: "";
+  width: 1em;
+  height: 1em;
+  background-color: #fff;
+  border-radius: 5em;
+  margin: 2px;
+}
+
+input[type="checkbox"]#orientation-check:checked + .switch {
+  background-color: #ff4500;
+}
+
+input[type="checkbox"]#orientation-check:checked + .switch::before {
+  transform: translateX(1.2em);
+}
