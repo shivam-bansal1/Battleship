@@ -9,10 +9,7 @@ import {
 
 function renderMainPage(playerOne, playerTwo) {
   renderGameboards();
-
-  placeShipsRandomly(playerOne);
   placeShipsRandomly(playerTwo);
-
   showShipsOnBoard(playerOne, "first-board");
 }
 

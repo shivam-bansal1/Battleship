@@ -123,7 +123,7 @@ export function displayEventLog(firstMsg, secondMsg, whichEvent, turnNumber) {
 }
 
 export function renderGameOverDialog(winner, winnerMoves, loserMoves) {
-  const dialogBox = document.querySelector("#game-over-dailog");
+  const dialogBox = document.querySelector("#game-over-dialog");
 
   const winnerElement = dialogBox.querySelector(".winner.value");
   winnerElement.textContent = winner;
@@ -163,6 +163,7 @@ export function renderGameStartDialog(player, whichBoard) {
   document.querySelector("body").style.opacity = 0.05;
 
   renderDraggableShips();
+  allowShipsDrop(player, startDialogBoard);
 
   const startButton = dialogBox.querySelector("#start-button");
   startButton.addEventListener("click", () => {
@@ -181,7 +182,6 @@ export function renderGameStartDialog(player, whichBoard) {
 
 function renderDraggableShips() {
   const orientationCheckBox = document.querySelector("#orientation-check");
-  console.log(orientationCheckBox);
   const shipPanel = document.querySelector(".ships-panel");
 
   function renderShips(orientation) {
@@ -194,13 +194,30 @@ function renderDraggableShips() {
       const ship = document.createElement("div");
       ship.classList.add("draggable-ship", orientation);
       ship.style.setProperty("--length", length);
+      ship.setAttribute("draggable", true);
       ship.dataset.length = length;
 
       for (let i = 0; i < length; i++) {
         const square = document.createElement("div");
         square.classList.add("draggable-square");
+        square.dataset.offset = i;
         ship.appendChild(square);
       }
+
+      ship.addEventListener("dragstart", (event) => {
+        ship.classList.add("dragging");
+        event.dataTransfer.setData("text/plain", ship.dataset.length);
+      });
+
+      ship.addEventListener("dragend", () => {
+        ship.classList.remove("dragging");
+      });
+
+      ship.querySelectorAll(".draggable-square").forEach((square) => {
+        square.addEventListener("mousedown", (e) => {
+          ship.dataset.offset = e.target.dataset.offset;
+        });
+      });
       shipPanel.appendChild(ship);
     });
   }
@@ -212,5 +229,51 @@ function renderDraggableShips() {
   orientationCheckBox.addEventListener("change", (e) => {
     const newOrientation = e.target.checked ? "horizontal" : "vertical";
     renderShips(newOrientation);
+  });
+}
+
+function allowShipsDrop(player, startDialogBoard) {
+  // Add dragover and drop listeners to each square
+  const squares = startDialogBoard.querySelectorAll(".square");
+  squares.forEach((square) => {
+    square.addEventListener("dragover", (e) => e.preventDefault());
+
+    square.addEventListener("drop", (e) => {
+      e.preventDefault();
+
+      const draggedShip = document.querySelector(".dragging");
+      if (!draggedShip) return;
+
+      const length = parseInt(draggedShip.dataset.length);
+      const orientation = draggedShip.classList.contains("horizontal")
+        ? "horizontal"
+        : "vertical";
+
+      const targetId = square.dataset.id;
+      const row = targetId.charCodeAt(0) - 65;
+      const col = parseInt(targetId.slice(1)) - 1;
+
+      const offset = parseInt(draggedShip.dataset.offset || 0);
+      let adjustedRow = row,
+        adjustedCol = col;
+
+      if (orientation == "vertical") adjustedRow = parseInt(row) - offset;
+      else adjustedCol = col - offset;
+
+      // Attempt to place the ship on the logical board
+      const success = player.board.placeShip(
+        length,
+        adjustedRow,
+        adjustedCol,
+        orientation,
+      );
+
+      if (success) {
+        showShipsOnBoard(player, "start-dialog-board");
+        draggedShip.remove();
+      } else {
+        alert("Invalid placement!");
+      }
+    });
   });
 }
