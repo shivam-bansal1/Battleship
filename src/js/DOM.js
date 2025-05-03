@@ -140,6 +140,8 @@ export function renderGameOverDialog(winner, winnerMoves, loserMoves) {
     dialogBox.close();
     document.querySelector("body").style.opacity = 1;
 
+    placedLengths = [];
+
     document.querySelector("#first-board").innerHTML = "";
     document.querySelector("#second-board").innerHTML = "";
     document.querySelector(".event-log").innerHTML = "";
@@ -167,30 +169,62 @@ export function renderGameStartDialog(player, whichBoard) {
 
   const startButton = dialogBox.querySelector("#start-button");
   startButton.addEventListener("click", () => {
-    const mainBoard = document.querySelector(`#${whichBoard}`);
+    if (placedLengths.length !== 5) {
+      alert("Please place all 5 ships to proceed !!!");
+    } else {
+      const mainBoard = document.querySelector(`#${whichBoard}`);
 
-    // Transfer DOM nodes from dialog board to main board
-    mainBoard.innerHTML = "";
-    Array.from(startDialogBoard.children).forEach((child) => {
-      mainBoard.appendChild(child.cloneNode(true));
-    });
+      // Transfer DOM nodes from dialog board to main board
+      mainBoard.innerHTML = "";
+      Array.from(startDialogBoard.children).forEach((child) => {
+        mainBoard.appendChild(child.cloneNode(true));
+      });
 
-    dialogBox.close();
-    document.querySelector("body").style.opacity = 1;
+      dialogBox.close();
+      document.querySelector("body").style.opacity = 1;
+    }
   });
 }
+
+let placedLengths = [];
 
 function renderDraggableShips() {
   const orientationCheckBox = document.querySelector("#orientation-check");
   const shipPanel = document.querySelector(".ships-panel");
+  const allShips = [5, 4, 3, 3, 2];
+
+  function getUnplacedShips() {
+    const shipCount = { 5: 1, 4: 1, 3: 2, 2: 1 };
+    const placedCount = {};
+    const unplaced = [];
+
+    placedLengths.forEach((length) => {
+      placedCount[length] = (placedCount[length] || 0) + 1;
+    });
+
+    const shipSet = new Set(allShips);
+    for (let length of shipSet) {
+      const required = shipCount[length];
+      const placed = placedCount[length] || 0;
+
+      if (placed < required) {
+        let remaining = required - placed;
+        while (remaining-- > 0) {
+          unplaced.push(length);
+        }
+      }
+    }
+
+    return unplaced;
+  }
 
   function renderShips(orientation) {
+    const unplacedShips = getUnplacedShips(placedLengths);
     shipPanel.innerHTML = "";
     shipPanel.className = "";
     shipPanel.classList.add("ships-panel", orientation);
 
-    const shipLength = [5, 4, 3, 3, 2];
-    shipLength.forEach((length) => {
+    unplacedShips.forEach((length) => {
       const ship = document.createElement("div");
       ship.classList.add("draggable-ship", orientation);
       ship.style.setProperty("--length", length);
@@ -225,7 +259,7 @@ function renderDraggableShips() {
   // Initial render
   renderShips(orientationCheckBox.checked ? "horizontal" : "vertical");
 
-  // Re-render on toggle
+  // Re-render only ship panel on orientation change
   orientationCheckBox.addEventListener("change", (e) => {
     const newOrientation = e.target.checked ? "horizontal" : "vertical";
     renderShips(newOrientation);
@@ -270,6 +304,7 @@ function allowShipsDrop(player, startDialogBoard) {
 
       if (success) {
         showShipsOnBoard(player, "start-dialog-board");
+        placedLengths.push(length);
         draggedShip.remove();
       } else {
         alert("Invalid placement!");
