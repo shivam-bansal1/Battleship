@@ -6,4 +6,8 @@ export class Player {
     this.playerType = playerType;
     this.board = new GameBoard();
   }
+
+  updateName(name) {
+    this.playerName = name;
+  }
 }

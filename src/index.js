@@ -25,7 +25,7 @@ export let intialDefenderBoard = "second-board";
 export let intialAttackerBoard = "first-board";
 
 export function intializeGame() {
-  playerOne = new Player("Shivam", "human");
+  playerOne = new Player("Player", "human");
   playerTwo = new Player("Computer");
 
   renderGameStartDialog(playerOne, "first-board");

@@ -169,6 +169,15 @@ export function renderGameStartDialog(player, whichBoard) {
 
   const startButton = dialogBox.querySelector("#start-button");
   startButton.addEventListener("click", () => {
+    let updatedPlayerName = document.querySelector("#player-name");
+    updatedPlayerName = updatedPlayerName.value;
+
+    if (updatedPlayerName !== "") {
+      player.updateName(updatedPlayerName);
+      document.querySelector("#first-player-name").textContent =
+        updatedPlayerName;
+    }
+
     if (placedLengths.length !== 5) {
       alert("Please place all 5 ships to proceed !!!");
     } else {

@@ -302,6 +302,20 @@ footer {
   box-sizing: border-box;
 }
 
+/* PLAYER INFO CSS */
+#player-name {
+  font-size: 22px;
+
+  background-color: transparent;
+  color: var(--copper-color);
+  border: var(--copper-color) solid 2px;
+  border-radius: 6px;
+}
+
+#player-name::placeholder {
+  color: var(--copper-color);
+}
+
 /* TOGGLE CSS */
 .orientation {
   display: flex;
