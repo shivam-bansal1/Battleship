@@ -120,7 +120,9 @@ function switchPlayerTurn(previousAttacker) {
   }
 
   if (newAttacker.playerType === "computer") {
-    setTimeout(computerMove(newAttacker, newDefender), 1000);
+    setTimeout(() => {
+      computerMove(newAttacker, newDefender);
+    }, 500);
   } else {
     playerMove(newAttacker, newDefender);
   }

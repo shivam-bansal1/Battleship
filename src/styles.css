@@ -20,8 +20,8 @@ body {
 
 header {
   font-family: var(--header-font);
-  font-size: 50px;
-  margin: 10px;
+  font-size: 46px;
+  margin: 6px;
 }
 
 .board-container {
@@ -48,7 +48,7 @@ main {
 
 .player-title,
 .health-details {
-  margin: 10px;
+  margin: 5px;
 }
 
 .gameboard {
